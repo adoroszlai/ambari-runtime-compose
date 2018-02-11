@@ -1,0 +1,22 @@
+---
+version: "3.5"
+services:
+  ambari-server:
+    image: ambari-server:dev
+    hostname: ambari-server
+    environment:
+      CONF_DIR: /etc/ambari-server/conf
+      PYTHONPATH: /opt/ambari/ambari-common/src/main/python:/opt/ambari/ambari-server/src/main/python
+      AMBARI.PROPERTIES!CFG_server.persistence.type: in-memory
+    env_file:
+      - ambari.properties.env
+    ports:
+      - 5005:5005
+      - 8080:8080
+    volumes:
+      - ${AMBARI_PROJECT:-~/src/ambari}:/opt/ambari
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources:/var/lib/ambari-server/resources
+      - ${AMBARI_OUTPUT:-~/tmp/ambari}/server/log:/var/log/ambari-server
+      - ${AMBARI_OUTPUT:-~/tmp/ambari}/server/keys:/var/lib/ambari-server/keys
+      - ~/.m2/repository:/opt/maven_repo
+    working_dir: /opt/ambari/ambari-server
