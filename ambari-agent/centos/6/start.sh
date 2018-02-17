@@ -8,8 +8,10 @@ set -e -u
 export ambariVersion buildNumber
 
 mkdir -p /var/lib/ambari-agent/{cache,cred,data,keys} /var/log/ambari-agent /var/run/ambari-agent
+echo ${ambariVersion} > /var/lib/ambari-agent/data/version
+
 export PATH=$PATH:/usr/lib/ambari-agent/bin
-#python /opt/ambari/ambari-agent/src/main/python/ambari_agent/main.py
+
 ambari-agent start
 while true; do
   sleep 3
