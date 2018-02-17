@@ -25,5 +25,4 @@ services:
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/mpacks:/var/lib/ambari-server/resources/mpacks:ro
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-web/public:/usr/lib/ambari-server/web:delegated
       - ${AMBARI_OUTPUT:-~/tmp/ambari}/server/log:/var/log/ambari-server
-      - ${AMBARI_OUTPUT:-~/tmp/ambari}/server/keys:/var/lib/ambari-server/keys
       - ~/.m2/repository:/opt/maven_repo:cached

@@ -9,11 +9,14 @@ ENV PATH "$PATH:$MAVEN_HOME/bin"
 COPY build.sh /
 RUN /build.sh
 
-ADD start.sh /
+RUN mkdir -p /var/lib/ambari-server/keys/db/newcerts && touch /var/lib/ambari-server/keys/db/index.txt
+COPY ca.config /var/lib/ambari-server/keys/
+
+COPY start.sh /
 
 # remove if launcher gets envtoconf_mkdir fix
 WORKDIR /opt/launcher
-ADD envtoconf.patch ./
+COPY envtoconf.patch ./
 RUN patch -p1 < envtoconf.patch
 
 WORKDIR /opt/ambari/ambari-server
