@@ -6,6 +6,8 @@ ENV CONF_DIR /etc/ambari-server/conf
 ENV MAVEN_HOME /opt/maven
 ENV PATH "$PATH:$MAVEN_HOME/bin"
 
+RUN apk add --update --no-cache python
+
 COPY build.sh /
 RUN /build.sh
 
