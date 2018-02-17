@@ -25,8 +25,13 @@ if [[ ! -d ${views_dir} ]]; then
   cp /opt/ambari/ambari-admin/target/ambari-admin*jar ${views_dir}/
 fi
 
+tmp_dir=$(fgrep server.tmp.dir /etc/ambari-server/conf/ambari.properties | cut -f2 -d=)
+: ${tmp_dir:=/var/lib/ambari-server/data/tmp}
+mkdir -p "$tmp_dir"
+
 java \
   -DskipDatabaseConsistencyValidation \
+  -Djava.io.tmpdir="$tmp_dir" \
   -Xmx2048m -Xms256m -XX:+CMSClassUnloadingEnabled \
   -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
   -classpath $(< $cp_file):target/classes:/etc/ambari-server/conf \
