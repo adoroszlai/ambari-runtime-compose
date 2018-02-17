@@ -8,6 +8,7 @@ services:
       PYTHONPATH: /usr/lib/ambari-server/lib
       AMBARI.PROPERTIES!CFG_server.os_type: alpine
       AMBARI.PROPERTIES!CFG_server.persistence.type: in-memory # default persistence, can be overwritten in other compose files
+      ROOT: /
     env_file:
       - ambari.properties.env
       - log4j.properties.env
