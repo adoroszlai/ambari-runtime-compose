@@ -8,8 +8,8 @@ ENV PATH "$PATH:$MAVEN_HOME/bin"
 
 RUN apk add --update --no-cache python
 
-COPY build.sh /
-RUN /build.sh
+COPY download_apache.sh /
+RUN /download_apache.sh "maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" "$MAVEN_HOME"
 
 RUN mkdir -p /var/lib/ambari-server/keys/db/newcerts && touch /var/lib/ambari-server/keys/db/index.txt
 COPY ca.config /var/lib/ambari-server/keys/
