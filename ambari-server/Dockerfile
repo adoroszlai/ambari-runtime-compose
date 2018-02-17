@@ -7,6 +7,7 @@ ENV MAVEN_HOME /opt/maven
 ENV PATH "$PATH:$MAVEN_HOME/bin"
 
 RUN apk add --update --no-cache python
+RUN ln -s /usr/bin/python /usr/bin/ambari-python-wrap
 
 COPY download_apache.sh /
 RUN /download_apache.sh "maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" "$MAVEN_HOME"

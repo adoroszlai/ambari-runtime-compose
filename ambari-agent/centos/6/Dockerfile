@@ -10,6 +10,7 @@ COPY start.sh /
 RUN cd /opt/launcher && git checkout -- .
 
 ENV PYTHON=/usr/bin/python
+RUN ln -s $PYTHON /usr/bin/ambari-python-wrap
 
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--", "/opt/launcher/launcher.sh"]
 
