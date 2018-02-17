@@ -29,5 +29,5 @@ java \
   -DskipDatabaseConsistencyValidation \
   -Xmx2048m -Xms256m -XX:+CMSClassUnloadingEnabled \
   -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
-  -classpath $(< $cp_file):target/classes:/etc/ambari-server/conf:conf/unix/log4j.properties \
+  -classpath $(< $cp_file):target/classes:/etc/ambari-server/conf \
   org.apache.ambari.server.controller.AmbariServer

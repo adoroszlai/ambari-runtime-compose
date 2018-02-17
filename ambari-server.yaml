@@ -11,6 +11,7 @@ services:
       AMBARI.PROPERTIES!CFG_server.persistence.type: in-memory # default persistence, can be overwritten in other compose files
     env_file:
       - ambari.properties.env
+      - log4j.properties.env
     ports:
       - 5005:5005
       - 8080:8080
