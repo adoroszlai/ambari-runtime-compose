@@ -1,7 +1,7 @@
 VERSION=dev
 
 up: build
-	docker-compose -f ambari-server.yaml up
+	docker-compose -f ambari-server.yaml -f postgres.yaml -f ambari-agent.yaml -f local-repo.yaml up
 
 build: build-agent build-server
 
