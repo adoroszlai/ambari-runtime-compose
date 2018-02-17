@@ -5,7 +5,6 @@ services:
     image: ambari-server:dev
     hostname: ambari-server
     environment:
-      CONF_DIR: /etc/ambari-server/conf
       PYTHONPATH: /usr/lib/ambari-server/lib
       AMBARI.PROPERTIES!CFG_server.os_type: alpine
       AMBARI.PROPERTIES!CFG_server.persistence.type: in-memory # default persistence, can be overwritten in other compose files
@@ -27,4 +26,3 @@ services:
       - ${AMBARI_OUTPUT:-~/tmp/ambari}/server/log:/var/log/ambari-server
       - ${AMBARI_OUTPUT:-~/tmp/ambari}/server/keys:/var/lib/ambari-server/keys
       - ~/.m2/repository:/opt/maven_repo:cached
-    working_dir: /opt/ambari/ambari-server
