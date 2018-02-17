@@ -1,0 +1,17 @@
+---
+version: "3.5"
+services:
+  ambari-agent:
+    image: ambari-agent:centos6
+    hostname: ambari-agent
+    environment:
+      CONF_DIR: /etc/ambari-agent/conf
+      #AMBARI_AGENT_RUN_IN_FOREGROUND: "true"
+      AMBARI-AGENT.INI_server.hostname: ambari-server
+    env_file:
+      - ambari-agent.ini.env
+    volumes:
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-common/src/main/python:/usr/lib/ambari-agent/lib
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-agent/src/main/python/ambari_agent:/usr/lib/ambari-agent/lib/ambari_agent
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-agent/conf/unix:/usr/lib/ambari-agent/bin
+    working_dir: /opt/ambari/ambari-agent
