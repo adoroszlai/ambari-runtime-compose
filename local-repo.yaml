@@ -1,0 +1,10 @@
+---
+version: "3.5"
+services:
+  repo:
+    image: adoroszlai/serve-yum-repo
+    hostname: repo
+    expose:
+      - "80"
+    volumes:
+      - ${REPO_DIR}:/var/repo
