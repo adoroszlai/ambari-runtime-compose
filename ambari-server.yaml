@@ -28,3 +28,6 @@ services:
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-web/public:/usr/lib/ambari-server/web:delegated
       - ${AMBARI_OUTPUT:-~/tmp/ambari}/server/log:/var/log/ambari-server
       - ~/.m2/repository:/opt/maven_repo:cached
+      - ./ambari-server/start.sh:/start.sh:ro
+    working_dir: /opt/ambari/ambari-server
+    command: /start.sh

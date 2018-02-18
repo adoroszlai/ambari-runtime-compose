@@ -5,7 +5,6 @@ services:
     image: ambari-agent:centos6
     hostname: ambari-agent
     environment:
-      CONF_DIR: /etc/ambari-agent/conf
       PYTHONPATH: /usr/lib/ambari-agent/lib
       AMBARI-AGENT.INI_server.hostname: ambari-server
       AMBARI_SERVER_RESOURCES:
@@ -18,8 +17,11 @@ services:
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-agent/src/main/python/ambari_agent:/usr/lib/ambari-agent/lib/ambari_agent
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-agent/conf/unix:/usr/lib/ambari-agent/bin
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources:${AMBARI_SERVER_RESOURCES}:ro
+      - ./ambari-agent/start.sh:/start.sh:ro
     working_dir: /opt/ambari/ambari-agent
+    command: /start.sh
 
   ambari-server:
     environment:
       AMBARI.PROPERTIES!CFG_agent.auto.cache.update: "false"
+      AMBARI.PROPERTIES!CFG_java.home: /usr/lib/jvm/jre-1.8.0-openjdk.x86_64

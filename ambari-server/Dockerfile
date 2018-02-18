@@ -15,8 +15,6 @@ RUN /download_apache.sh "maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${
 RUN mkdir -p /var/lib/ambari-server/keys/db/newcerts && touch /var/lib/ambari-server/keys/db/index.txt
 COPY ca.config /var/lib/ambari-server/keys/
 
-COPY start.sh /
-
 # remove if launcher gets envtoconf_mkdir fix
 WORKDIR /opt/launcher
 COPY envtoconf.patch ./
@@ -24,4 +22,4 @@ RUN patch -p1 < envtoconf.patch
 
 WORKDIR /opt/ambari/ambari-server
 
-CMD [ "/start.sh" ]
+CMD [ "/bin/bash" ]

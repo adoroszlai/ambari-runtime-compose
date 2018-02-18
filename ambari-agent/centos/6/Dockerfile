@@ -1,17 +1,14 @@
 FROM centos:6
 
-ENV PERMISSION_FIX=true
-VOLUME /data
+ENV CONF_DIR /etc/ambari-agent/conf
 WORKDIR /opt
 
 COPY build.sh /
 RUN /build.sh
-COPY start.sh /
 RUN cd /opt/launcher && git checkout -- .
 
 ENV PYTHON=/usr/bin/python
 RUN ln -s $PYTHON /usr/bin/ambari-python-wrap
 
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--", "/opt/launcher/launcher.sh"]
-
-CMD [ "/start.sh" ]
+CMD [ "/bin/bash" ]

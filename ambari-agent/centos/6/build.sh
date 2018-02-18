@@ -2,8 +2,6 @@
 
 set -e -u
 
-mkdir -p /etc/ambari-agent/conf
-
 yum install -y curl git java-1.8.0-openjdk sudo wget
 yum clean all
 rm -rf /var/cache/yum
