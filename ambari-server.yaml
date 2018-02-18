@@ -2,7 +2,7 @@
 version: "3.5"
 services:
   ambari-server:
-    image: ambari-server:dev
+    image: ambari-server:alpine
     hostname: ambari-server
     environment:
       - PYTHONPATH=/usr/lib/ambari-server/lib
