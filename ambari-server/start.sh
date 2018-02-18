@@ -29,10 +29,14 @@ tmp_dir=$(fgrep server.tmp.dir /etc/ambari-server/conf/ambari.properties | cut -
 : ${tmp_dir:=/var/lib/ambari-server/data/tmp}
 mkdir -p "$tmp_dir"
 
+CLASSPATH=$(< $cp_file):target/classes:/etc/ambari-server/conf
+jdbc_driver=$(fgrep server.jdbc.driver.path /etc/ambari-server/conf/ambari.properties | cut -f2 -d=)
+[[ -n $jdbc_driver ]] && [[ -e $jdbc_driver ]] && CLASSPATH=$CLASSPATH:$jdbc_driver
+export CLASSPATH
+
 java \
   -DskipDatabaseConsistencyValidation \
   -Djava.io.tmpdir="$tmp_dir" \
   -Xmx2048m -Xms256m -XX:+CMSClassUnloadingEnabled \
   -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 \
-  -classpath $(< $cp_file):target/classes:/etc/ambari-server/conf \
   org.apache.ambari.server.controller.AmbariServer

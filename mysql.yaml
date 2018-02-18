@@ -1,0 +1,43 @@
+---
+version: "3.5"
+services:
+  db:
+    image: mysql:5
+    hostname: db
+    environment:
+      MYSQL_DATABASE: ${AMBARI_DB_NAME:-ambari}
+      MYSQL_USER: ${AMBARI_DB_USER:-ambari}
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql-passwd
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    expose:
+      - 3306
+    secrets:
+      - mysql-passwd
+    volumes:
+      - ${AMBARI_PROJECT}/ambari-server/target/classes/Ambari-DDL-MySQL-CREATE.sql:/docker-entrypoint-initdb.d/ambari.sql:ro
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+  ambari-server:
+    environment:
+      AMBARI.PROPERTIES!CFG_server.jdbc.database: mysql
+      AMBARI.PROPERTIES!CFG_server.jdbc.database_name: ${AMBARI_DB_NAME:-ambari}
+      AMBARI.PROPERTIES!CFG_server.jdbc.driver: com.mysql.jdbc.Driver
+      AMBARI.PROPERTIES!CFG_server.jdbc.driver.path: /usr/share/java/mysql-jdbc-driver.jar
+      AMBARI.PROPERTIES!CFG_server.jdbc.hostname: db
+      AMBARI.PROPERTIES!CFG_server.jdbc.port: 3306
+      AMBARI.PROPERTIES!CFG_server.jdbc.url: jdbc:mysql://db:3306/${AMBARI_DB_NAME:-ambari}
+      AMBARI.PROPERTIES!CFG_server.jdbc.user.name: ${AMBARI_DB_USER:-ambari}
+      AMBARI.PROPERTIES!CFG_server.persistence.type: remote
+    volumes:
+      - ${MYSQL_JDBC_DRIVER}:/usr/share/java/mysql-jdbc-driver.jar:ro
+    secrets:
+      - source: mysql-passwd
+        target: /etc/ambari-server/conf/password.dat
+        mode: 0400
+
+secrets:
+  mysql-passwd:
+    file: password.dat

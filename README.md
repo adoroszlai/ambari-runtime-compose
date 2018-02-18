@@ -2,7 +2,7 @@ Environment for running Ambari built locally.  Inspired by [lpuskas/ambari-dev-e
 
  * Ambari Server image based on [flokkr/docker-baseimage](https://github.com/flokkr/docker-baseimage)
  * Ambari Agent image based on [centos:6](https://hub.docker.com/_/centos/)
- * Docker Compose files for running Ambari with PostgreSQL and a local repo (optional)
+ * Docker Compose files for running Ambari with PostgreSQL or MySQL, and a local repo (optional)
 
 ## Usage
 
@@ -14,8 +14,11 @@ Environment for running Ambari built locally.  Inspired by [lpuskas/ambari-dev-e
     ```
     mvn -am -pl ambari-admin,ambari-agent,ambari-server,ambari-web -Del.log=WARN -DskipTests -Dcheckstyle.skip -Drat.skip -Dfindbugs.skip clean package
     ```
- 6. Run Ambari, eg.: `docker-compose -f ambari-server.yaml -f postgres.yaml -f ambari-agent.yaml up`
+ 6. Run Ambari, eg.:
+    * `docker-compose -f ambari-server.yaml -f postgres.yaml -f ambari-agent.yaml up`
+    * `docker-compose -f ambari-server.yaml -f mysql.yaml -f ambari-agent.yaml up`
 
 ## Notes
 
  * Most Ambari settings are defined in `*.env` files.  These are converted to the real config files by [envtoconf](https://github.com/elek/envtoconf) invoked by the [flokkr/launcher](https://github.com/flokkr/launcher).  This allows mixing in settings from the compose files or other sources.
+ * For using Ambari with MySQL, download [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/), and define the jar's location on the host in the `MYSQL_JDBC_DRIVER` variable.  The file will be mounted in Ambari Server's container.
