@@ -6,8 +6,9 @@ services:
     hostname: ambari-agent
     environment:
       CONF_DIR: /etc/ambari-agent/conf
-      #AMBARI_AGENT_RUN_IN_FOREGROUND: "true"
+      PYTHONPATH: /usr/lib/ambari-agent/lib
       AMBARI-AGENT.INI_server.hostname: ambari-server
+      AMBARI_SERVER_RESOURCES:
       ambariVersion:
       buildNumber:
     env_file:
@@ -16,4 +17,9 @@ services:
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-common/src/main/python:/usr/lib/ambari-agent/lib
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-agent/src/main/python/ambari_agent:/usr/lib/ambari-agent/lib/ambari_agent
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-agent/conf/unix:/usr/lib/ambari-agent/bin
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources:${AMBARI_SERVER_RESOURCES}:ro
     working_dir: /opt/ambari/ambari-agent
+
+  ambari-server:
+    environment:
+      AMBARI.PROPERTIES!CFG_agent.auto.cache.update: "false"
