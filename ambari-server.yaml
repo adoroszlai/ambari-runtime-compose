@@ -5,12 +5,12 @@ services:
     image: ambari-server:dev
     hostname: ambari-server
     environment:
-      PYTHONPATH: /usr/lib/ambari-server/lib
-      AMBARI.PROPERTIES!CFG_server.os_type: alpine
-      AMBARI.PROPERTIES!CFG_server.persistence.type: in-memory # default persistence, can be overwritten in other compose files
-      ROOT: /
-      ambariVersion:
-      buildNumber:
+      - PYTHONPATH=/usr/lib/ambari-server/lib
+      - AMBARI.PROPERTIES!CFG_server.os_type=alpine
+      - AMBARI.PROPERTIES!CFG_server.persistence.type=in-memory # default persistence, can be overwritten in other compose files
+      - ROOT=/
+      - ambariVersion
+      - buildNumber
     env_file:
       - ambari.properties.env
       - log4j.properties.env

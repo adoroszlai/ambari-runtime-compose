@@ -5,11 +5,11 @@ services:
     image: ambari-agent:centos6
     hostname: ambari-agent
     environment:
-      PYTHONPATH: /usr/lib/ambari-agent/lib:/usr/lib/ambari-agent/lib/ambari_jinja2
-      AMBARI-AGENT.INI_server.hostname: ambari-server
-      AMBARI_SERVER_RESOURCES:
-      ambariVersion:
-      buildNumber:
+      - PYTHONPATH=/usr/lib/ambari-agent/lib:/usr/lib/ambari-agent/lib/ambari_jinja2
+      - AMBARI-AGENT.INI_server.hostname=ambari-server
+      - AMBARI_SERVER_RESOURCES
+      - ambariVersion
+      - buildNumber
     env_file:
       - ambari-agent.ini.env
     volumes:
