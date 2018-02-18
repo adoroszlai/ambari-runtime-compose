@@ -8,6 +8,8 @@ services:
       CONF_DIR: /etc/ambari-agent/conf
       #AMBARI_AGENT_RUN_IN_FOREGROUND: "true"
       AMBARI-AGENT.INI_server.hostname: ambari-server
+      ambariVersion:
+      buildNumber:
     env_file:
       - ambari-agent.ini.env
     volumes:
