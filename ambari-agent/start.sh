@@ -11,7 +11,7 @@ mkdir -p /var/lib/ambari-agent/{cache,cred,data,keys,tmp} /var/log/ambari-agent 
 echo ${ambariVersion} > /var/lib/ambari-agent/data/version
 
 AMBARI_SERVER_RESOURCES=/opt/ambari-server/resources
-[[ -e ${AMBARI_SERVER_RESOURCES} ]] && cp -r ${AMBARI_SERVER_RESOURCES}/{common-services,stacks,mpacks} /var/lib/ambari-agent/cache/
+[[ -e ${AMBARI_SERVER_RESOURCES} ]] && cp -r ${AMBARI_SERVER_RESOURCES}/{common-services,custom_action_definitions,custom_actions,host_scripts,mpacks,stacks} /var/lib/ambari-agent/cache/
 
 export PATH=$PATH:/usr/lib/ambari-agent/bin
 
