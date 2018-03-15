@@ -1,24 +1,26 @@
-Environment for running Ambari built locally.  Inspired by [lpuskas/ambari-dev-env](https://github.com/lpuskas/ambari-dev-env).
+# Ambari Docker Compose Runtime
 
- * Ambari Server image based on [flokkr/docker-baseimage](https://github.com/flokkr/docker-baseimage)
- * Ambari Agent image based on [centos:6](https://hub.docker.com/_/centos/)
- * Docker Compose files for running Ambari with PostgreSQL or MySQL, and a local repo (optional)
+Sample Docker Compose files for running Ambari with PostgreSQL or MySQL, and a local repo (optional)
 
 ## Usage
 
- 1. Make `AMBARI_PROJECT` variable point to local Ambari source location (define as shell variable or in `.env`)
- 2. Define `AMBARI_OUTPUT` variable with desired output (logs) location (also as shell variable or in `.env`)
- 3. Create `password.dat` with the password for the `ambari` DB user
- 4. Build the Docker images: `make build`
- 5. Build (parts of) Ambari:
+ 1. Define `AMBARI_BUILD` (eg. `2.6.1`) and `AMBARI_FLAVOR` (eg. `centos7`) variables (look for available [ambari-server](https://hub.docker.com/r/adoroszlai/ambari-server/tags/) and [ambari-agent](https://hub.docker.com/r/adoroszlai/ambari-agent/tags/) images on Docker Hub)
+ 2. Create `password.dat` with the password for the `ambari` DB user
+ 3. Run Ambari:
     ```
-    mvn -am -pl ambari-admin,ambari-agent,ambari-server,ambari-web -Del.log=WARN -DskipTests -Dcheckstyle.skip -Drat.skip -Dfindbugs.skip clean package
+    docker-compose -p ambari -f server.yaml -f agent.yaml -f db/postgres.yaml up -d
     ```
- 6. Run Ambari, eg.:
-    * `docker-compose -f ambari-server.yaml -f postgres.yaml -f ambari-agent.yaml up`
-    * `docker-compose -f ambari-server.yaml -f mysql.yaml -f ambari-agent.yaml up`
+ 4. Scale the cluster by adding new `agent` nodes:
+    ```
+    docker-compose -f ... scale agent=2
+    ```
 
 ## Notes
 
+ * Define the set of compose files to be used in the `COMPOSE_FILE` environment variable, eg. etc. to avoid having to type all of them for each command.
+   ```
+   COMPOSE_FILE=server.yaml:agent.yaml:db/postgres.yaml:repo.yaml
+   ```
  * Most Ambari settings are defined in `*.env` files.  These are converted to the real config files by [envtoconf](https://github.com/elek/envtoconf) invoked by the [flokkr/launcher](https://github.com/flokkr/launcher).  This allows mixing in settings from the compose files or other sources.
  * For using Ambari with MySQL, download [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/), and define the jar's location on the host in the `MYSQL_JDBC_DRIVER` variable.  The file will be mounted in Ambari Server's container.
+ * If some stack is available locally, point `REPO_DIR` to it and add `repo.yaml` the list of compose files.  Set base URLs in Ambari to `http://repo/...`

@@ -1,0 +1,38 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+version: "3.5"
+services:
+  server:
+    environment:
+      - AMBARI.PROPERTIES!CFG_agent.auto.cache.update="false"
+      # ambari_jinja2 is one level deeper
+      - PYTHONPATH=/usr/lib/ambari-server/lib:/usr/lib/ambari-server/lib/ambari_jinja2
+    volumes:
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-common/src/main/python:/usr/lib/ambari-server/lib:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-common/src/main/python:/usr/lib/python2.6/site-packages:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/python/ambari_server:/usr/lib/ambari-server/lib/ambari_server:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/python/ambari_server:/usr/lib/python2.6/site-packages/ambari_server:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/target/classes:/usr/lib/ambari-server/classes:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/common-services:/var/lib/ambari-server/resources/common-services:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/common-services:/var/lib/ambari-server/resources/common-services:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/custom_actions:/var/lib/ambari-server/resources/custom_actions:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/custom_action_definitions:/var/lib/ambari-server/resources/custom_action_definitions:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/host_scripts:/var/lib/ambari-server/resources/host_scripts:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/mpacks:/var/lib/ambari-server/resources/mpacks:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/scripts:/var/lib/ambari-server/resources/scripts:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/stacks:/var/lib/ambari-server/resources/stacks:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/upgrade:/var/lib/ambari-server/resources/upgrade:delegated
+      - ~/.m2/repository:/opt/maven_repo:ro
+      - ./dev/server_dependencies:/var/lib/ambari-server/data/tmp/dependencies:ro
+      - ./dev/server-start.sh:/start.sh
+    command: /start.sh
