@@ -14,7 +14,7 @@
 
 set -e -u
 
-CLASSPATH=/usr/lib/ambari-server/classes:/etc/ambari-server/conf:$(</var/lib/ambari-server/data/tmp/dependencies)
+CLASSPATH=/usr/lib/ambari-server/classes:/etc/ambari-server/conf:$(</usr/lib/ambari-server/classes/.classpath)
 jdbc_driver=$(fgrep server.jdbc.driver.path /etc/ambari-server/conf/ambari.properties | cut -f2 -d=)
 [[ -n ${jdbc_driver} ]] && [[ -s ${jdbc_driver} ]] && CLASSPATH=${CLASSPATH}:${jdbc_driver}
 export CLASSPATH

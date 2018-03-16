@@ -33,6 +33,5 @@ services:
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/stacks:/var/lib/ambari-server/resources/stacks:delegated
       - ${AMBARI_PROJECT:-~/src/ambari}/ambari-server/src/main/resources/upgrade:/var/lib/ambari-server/resources/upgrade:delegated
       - ~/.m2/repository:/opt/maven_repo:ro
-      - ./dev/server_dependencies:/var/lib/ambari-server/data/tmp/dependencies:ro
       - ./dev/server-start.sh:/start.sh
     command: /start.sh

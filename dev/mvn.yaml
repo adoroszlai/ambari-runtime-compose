@@ -15,8 +15,8 @@ services:
   mvn:
     image: maven:3-jdk-8-alpine
     volumes:
-      - ${AMBARI_PROJECT:-~/src/ambari}:/src:ro
-      - ${PWD}:/target:delegated
+      - ${AMBARI_PROJECT:-~/src/ambari}:/src:cached
+      - ./gen_classpath.sh:/gen_classpath.sh:ro
       - ~/.m2/repository:/opt/maven_repo:cached
     working_dir: /src
-    command: mvn -pl ambari-server -Dmaven.repo.local=/opt/maven_repo -Dmdep.outputFile=/target/server_dependencies dependency:build-classpath
+    entrypoint: /gen_classpath.sh
