@@ -14,6 +14,7 @@ version: "3.5"
 services:
   agent:
     environment:
+      - AMBARI-AGENT.INI_agentConfig.agent.auto.cache.update=false
       # ambari_jinja2 is one level deeper
       - PYTHONPATH=/usr/lib/ambari-agent/lib:/usr/lib/ambari-agent/lib/ambari_jinja2
     volumes:
