@@ -19,6 +19,7 @@ services:
       - logging.conf.env
     environment:
       - AMBARI-AGENT.INI_server.hostname=server
+      - LAUNCHER_UPDATE="true"
     command: /etc/init.d/ambari-agent start
     deploy:
       resources:

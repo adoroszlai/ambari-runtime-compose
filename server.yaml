@@ -20,6 +20,7 @@ services:
       - log4j.properties.env
     environment:
       - AMBARI.PROPERTIES!CFG_server.persistence.type=in-memory # default persistence, can be overwritten in other compose files
+      - LAUNCHER_UPDATE="true"
     expose:
       - "8440"
       - "8441"
