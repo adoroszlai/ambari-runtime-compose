@@ -17,7 +17,7 @@ Sample Docker Compose files for running Ambari with PostgreSQL or MySQL, and a l
 
 ## Notes
 
- * Define the set of compose files to be used in the `COMPOSE_FILE` environment variable, eg. etc. to avoid having to type all of them for each command.
+ * Define the set of compose files to be used in the `COMPOSE_FILE` environment variable to avoid having to type all of them for each command.
    ```
    COMPOSE_FILE=server.yaml:agent.yaml:db/postgres.yaml:repo.yaml
    ```
